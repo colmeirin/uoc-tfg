@@ -1,0 +1,9 @@
+schemaVersion: 2.2.0 attributes:
+space:
+instanceType: regular editor:
+type: PyCharm version: '2023.1.2' updateChannel: EAP
+components:
+- name: image-build
+image:
+imageName: myapp:latest dockerfile:
+uri: .space/Dockerfile
