@@ -1,0 +1,212 @@
+apiVersion: workspace.devfile.io/v1alpha2
+metadata:
+  annotations:
+    che.eclipse.org/che-editor: che-code-uoc-tfg-red-hat-lyui
+    che.eclipse.org/last-updated-timestamp: '2023-06-15T20:14:02.888Z'
+    controller.devfile.io/started-at: '1686860054207'
+  creationTimestamp: '2023-06-15T20:14:02Z'
+  finalizers:
+    - rbac.controller.devfile.io
+  generation: 5
+  labels:
+    controller.devfile.io/creator: 14f1b9ae-5f4d-4e1f-b238-895a0efbeb38
+  managedFields:
+    - apiVersion: workspace.devfile.io/v1alpha2
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:che.eclipse.org/che-editor: {}
+            f:che.eclipse.org/last-updated-timestamp: {}
+        f:spec:
+          .: {}
+          f:contributions: {}
+          f:routingClass: {}
+          f:started: {}
+          f:template:
+            .: {}
+            f:attributes:
+              .: {}
+              f:controller.devfile.io/devworkspace-config:
+                .: {}
+                f:name: {}
+                f:namespace: {}
+              f:controller.devfile.io/scc: {}
+              f:controller.devfile.io/storage-type: {}
+              f:dw.metadata.annotations:
+                .: {}
+                f:che.eclipse.org/devfile-source: {}
+            f:commands: {}
+            f:components: {}
+            f:projects: {}
+      manager: unknown
+      operation: Update
+      time: '2023-06-15T20:14:03Z'
+    - apiVersion: workspace.devfile.io/v1alpha2
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:controller.devfile.io/started-at: {}
+          f:finalizers:
+            .: {}
+            v:"rbac.controller.devfile.io": {}
+      manager: devworkspace-controller
+      operation: Update
+      time: '2023-06-15T20:14:14Z'
+    - apiVersion: workspace.devfile.io/v1alpha2
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:conditions: {}
+          f:devworkspaceId: {}
+          f:mainUrl: {}
+          f:message: {}
+          f:phase: {}
+      manager: devworkspace-controller
+      operation: Update
+      subresource: status
+      time: '2023-06-15T20:14:14Z'
+  name: uoc-tfg-red-hat-lyui
+  namespace: jcolmeiro-dev
+  resourceVersion: '851414505'
+  uid: 825b5a62-0b59-4d00-ae37-b67668172075
+kind: DevWorkspace
+spec:
+  contributions:
+    - kubernetes:
+        name: che-code-uoc-tfg-red-hat-lyui
+      name: editor
+  routingClass: che
+  started: true
+  template:
+    attributes:
+      controller.devfile.io/devworkspace-config:
+        name: devworkspace-config
+        namespace: crw
+      controller.devfile.io/scc: container-build
+      controller.devfile.io/storage-type: ephemeral
+      dw.metadata.annotations:
+        che.eclipse.org/devfile-source: |
+          scm:
+            repo: https://github.com/colmeirin/uoc-tfg.git
+            fileName: devfile.yaml
+          factory:
+            params: url=https://github.com/colmeirin/uoc-tfg
+    projects:
+      - git:
+          remotes:
+            origin: https://github.com/colmeirin/uoc-tfg.git
+        name: uoc-tfg
+    components:
+      - attributes:
+          controller.devfile.io/merge-contribution: true
+        container:
+          cpuLimit: 4000m
+          cpuRequest: 1000m
+          env:
+            - name: CHE_DASHBOARD_URL
+              value: https://devspaces.apps.sandbox-m3.1530.p1.openshiftapps.com
+            - name: CHE_PLUGIN_REGISTRY_URL
+              value: https://devspaces.apps.sandbox-m3.1530.p1.openshiftapps.com/plugin-registry/v3
+            - name: CHE_PLUGIN_REGISTRY_INTERNAL_URL
+              value: http://plugin-registry.crw.svc:8080/v3
+            - name: CLUSTER_CONSOLE_URL
+              value: https://console-openshift-console.apps.sandbox-m3.1530.p1.openshiftapps.com
+            - name: CLUSTER_CONSOLE_TITLE
+              value: OpenShift console
+            - name: OPENVSX_REGISTRY_URL
+              value: https://open-vsx.org
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          memoryLimit: 6G
+          memoryRequest: 512Mi
+          mountSources: true
+          sourceMapping: /projects
+          volumeMounts:
+            - name: m2
+              path: /home/user/.m2
+        name: tools
+      - container:
+          env:
+            - name: POSTGRESQL_USER
+              value: user
+            - name: POSTGRESQL_PASSWORD
+              value: password
+            - name: POSTGRESQL_DATABASE
+              value: food_db
+            - name: PGDATA
+              value: /tmp/pgdata
+            - name: CHE_DASHBOARD_URL
+              value: https://devspaces.apps.sandbox-m3.1530.p1.openshiftapps.com
+            - name: CHE_PLUGIN_REGISTRY_URL
+              value: https://devspaces.apps.sandbox-m3.1530.p1.openshiftapps.com/plugin-registry/v3
+            - name: CHE_PLUGIN_REGISTRY_INTERNAL_URL
+              value: http://plugin-registry.crw.svc:8080/v3
+            - name: CLUSTER_CONSOLE_URL
+              value: https://console-openshift-console.apps.sandbox-m3.1530.p1.openshiftapps.com
+            - name: CLUSTER_CONSOLE_TITLE
+              value: OpenShift console
+            - name: OPENVSX_REGISTRY_URL
+              value: https://open-vsx.org
+          image: quay.io/centos7/postgresql-13-centos7@sha256:994f5c622e2913bda1c4a7fa3b0c7e7f75e7caa3ac66ff1ed70ccfe65c40dd75
+          sourceMapping: /projects
+        name: postgresql
+      - name: m2
+        volume:
+          size: 1G
+    commands:
+      - exec:
+          commandLine: python -m venv .venv && . .venv/bin/activate && python jcolmeiro_uoc_prime_numbers.py
+          component: python
+          group:
+            kind: run
+          label: Run the application
+          workingDir: ${PROJECTS_ROOT}/python-hello-world
+        id: run
+      - exec:
+          commandLine: oc new-app -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=password -e POSTGRESQL_DATABASE=food_db postgresql:10-el7 -n demo
+          component: tools
+          group:
+            kind: test
+          label: Deploy Postrgres
+          workingDir: ${PROJECTS_ROOT}/quarkus-api-example
+        id: deploypostgres
+status:
+  conditions:
+    - lastTransitionTime: '2023-06-15T20:14:03Z'
+      message: DevWorkspace is starting
+      status: 'True'
+      type: Started
+    - lastTransitionTime: '2023-06-15T20:14:03Z'
+      message: Resolved plugins and parents from DevWorkspace
+      status: 'True'
+      type: DevWorkspaceResolved
+    - lastTransitionTime: '2023-06-15T20:14:03Z'
+      message: Storage ready
+      status: 'True'
+      type: StorageReady
+    - lastTransitionTime: '2023-06-15T20:14:03Z'
+      message: Networking ready
+      status: 'True'
+      type: RoutingReady
+    - lastTransitionTime: '2023-06-15T20:14:03Z'
+      message: DevWorkspace serviceaccount ready
+      status: 'True'
+      type: ServiceAccountReady
+    - lastTransitionTime: '2023-06-15T20:14:03Z'
+      message: DevWorkspace secrets ready
+      status: 'True'
+      type: PullSecretsReady
+    - lastTransitionTime: '2023-06-15T20:14:08Z'
+      message: DevWorkspace deployment ready
+      status: 'True'
+      type: DeploymentReady
+    - lastTransitionTime: '2023-06-15T20:14:14Z'
+      status: 'True'
+      type: Ready
+  devworkspaceId: workspace825b5a620b594d00
+  mainUrl: https://devspaces.apps.sandbox-m3.1530.p1.openshiftapps.com/workspace825b5a620b594d00/tools/3100/
+  message: https://devspaces.apps.sandbox-m3.1530.p1.openshiftapps.com/workspace825b5a620b594d00/tools/3100/
+  phase: Running
