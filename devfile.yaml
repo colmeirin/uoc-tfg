@@ -36,7 +36,7 @@ commands:
     exec:
       label: "Run the application"
       component: tools
-      workingDir: ${PROJECTS_ROOT}/python-hello-world
+      workingDir: ${PROJECTS_ROOT}/uoc-tfg
       commandLine: python -m venv .venv && . .venv/bin/activate && python jcolmeiro_uoc_prime_numbers.py
       group:
         kind: run
